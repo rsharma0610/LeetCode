@@ -1,0 +1,21 @@
+class Solution(object):
+    def kidsWithCandies(self, candies, extraCandies):
+        """
+        :type candies: List[int]
+        :type extraCandies: int
+        :rtype: List[bool]
+        """
+        # loop to find greatest amount of candy
+        greatest = candies[0]
+        for i in range(len(candies), 1, 1):
+            if candies[i] > greatest:
+                greatest = candies[i]
+        
+        result=[0] * (len(candies))
+        for j in range(len(candies)):
+            if (candies[j] + extraCandies) >= greatest:
+                result[j] = True
+            else:
+                result[j] = False
+        
+        return result
