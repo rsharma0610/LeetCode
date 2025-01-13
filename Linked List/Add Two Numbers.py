@@ -1,3 +1,13 @@
+# Explanation
+# We can use the properties of integer addition to solve this algorithm
+# We need to account for two values, what we contribute at the decimal place and what we carry over
+# What to contribute:
+# If for example you add 9 + 9, which equals 18, you would contribute an 8 to the decimal place
+# The value to contribute can be extracted using % 10
+# What to carry over:
+# In the example of 9 + 9 above, which equals 18, a 1 would be carried over for thr addition of the next 
+# decimal place, the number to be carried over can be calucluated by ineteger division by 10
+# We can then run the loop while list 1, list 2, or carry still need to be processed
 
 
 from typing import Optional
@@ -9,35 +19,25 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        sum_l1 = 0
-        count_l1 = 0
-        
-        cur = l1
-        while cur:
-            sum_l1 += cur.val * 10 ** count_l1 
-            count_l1 += 1
+        head = ListNode()
+        cur = head
+
+        carry = 0
+        while l1 or l2 or carry:
+            # Get the value from each linked list to sum if there is no value at the decimal place then contribute 0
+            val_l1 = l1.val if l1 else 0
+            val_l2 = l2.val if l2 else 0
+
+            val = val_l1 + val_l2 + carry
+            carry = val // 10
+            val = val % 10
+            cur.next = ListNode(val)
             cur = cur.next
-        
-        
-        sum_l2 = 0
-        count_l2 = 0
 
-        cur = l2
-        while cur:
-            sum_l2 += cur.val * 10 ** count_l2
-            count_l2 += 1
-            cur = cur.next
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
         
-        sum_l3 = sum_l1 + sum_l2
-
-        dummy = ListNode()
-        pointer = dummy
-
-        for digit in str(sum_l3)[::-1]:
-            pointer.next = ListNode(int(digit))
-            pointer = pointer.next
-        
-        return dummy.next
+        return head.next
 
 
         
